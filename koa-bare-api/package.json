@@ -1,0 +1,28 @@
+{
+  "name": "koa-sls",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@koa/bodyparser": "^5.1.1",
+    "axios": "^1.7.2",
+    "koa": "^2.15.3",
+    "koa-compress": "^5.1.1",
+    "koa-route": "^3.2.0",
+    "@opentelemetry/api-logs": "^0.52.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.52.0",
+    "@opentelemetry/instrumentation-bunyan": "^0.39.0",
+    "@opentelemetry/sdk-logs": "^0.52.0",
+    "@opentelemetry/semantic-conventions": "^1.25.0",
+    "bunyan": "^1.8.15",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^13.6.0"
+  },
+  "author": "zmrfzn",
+  "license": "ISC"
+}

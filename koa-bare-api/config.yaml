@@ -1,0 +1,37 @@
+#collector.yaml in the root directory
+#Set an environment variable 'OPENTELEMETRY_COLLECTOR_CONFIG_FILE' to '/var/task/collector.yaml'
+
+processors:
+  batch:
+    send_batch_max_size: 10000
+    timeout: 0s
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "localhost:4317"
+      http:
+        endpoint: "localhost:4318"
+
+exporters:
+  logging:
+  otlphttp:
+    endpoint: https://otlp.nr-data.net:4317
+    headers:
+      api-key: f5644626eef13f26d27746c6e381555ef9f9NRAL
+
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch,decouple]
+      exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging,otlphttp]
+  telemetry:
+    metrics:
+      address: localhost:8888

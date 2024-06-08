@@ -1,0 +1,37 @@
+org: zmrfzn
+app: node-bare-app
+service: koa-bare-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: index.handler
+    events: 
+      - httpApi: "*"
+    environment:
+        # https://aws-otel.github.io/docs/getting-started/lambda/lambda-js#enable-auto-instrumentation-for-your-lambda-function
+        OTEL_SERVICE_NAME:	Koa_Base_Community_layer
+        EXPRESS_OTEL_API_ENDPOINT: 'http://3.230.230.121/v3/api'
+        AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-handler
+        OTEL_EXPORTER_OTLP_ENDPOINT:	https://otlp.nr-data.net:4317
+        OTEL_EXPORTER_OTLP_HEADERS: 'api-key=${ssm:/nr_experiments_ingest_key}'
+        # https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-aws-lambda#aws-lambda-instrumentation-options
+        OTEL_LAMBDA_DISABLE_AWS_CONTEXT_PROPAGATION:	true
+        OTEL_PROPAGATORS:	tracecontext,baggage
+        OTEL_LOG_LEVEL:	DEBUG
+
+    layers:
+      - arn:aws:lambda:us-east-1:184161586896:layer:opentelemetry-nodejs-0_6_0:1
+
+plugins:
+  - serverless-offline
+
+dashboard:
+  disableMonitoring: true
+
+package:
+  excludeDevDependencies: true
