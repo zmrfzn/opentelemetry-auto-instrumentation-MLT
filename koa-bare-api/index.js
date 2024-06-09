@@ -6,17 +6,6 @@ const { bodyParser } = require("@koa/bodyparser");
 
 const bunyan = require("bunyan");
 
-// create bunyan logger with stream options
-// const logger = bunyan.createLogger({
-//   name: `${process.env.OTEL_SERVICE_NAME || "default"}`,
-//   streams: [
-//     {
-//       type: "raw",
-//       stream: new OpenTelemetryBunyanStream(),
-//     },
-//   ],
-// });
-
 const logger = bunyan.createLogger({
   name: `${process.env.OTEL_SERVICE_NAME || "default"}`,
 })
@@ -38,14 +27,7 @@ app.use(
   route.get("/", async function (ctx) {
     logger.info("hit /");
 
-    // logger.emit({
-    //   severityNumber: SeverityNumber.INFO,
-    //   timestamp: Date.now(),
-    //   body: 'Hit /',
-    //   attributes: {}
-    // });
-
-    console.log("hit /");
+    // console.log("hit /");
 
     ctx.body = "Hello World";
   })
@@ -54,21 +36,21 @@ app.use(
 app.use(
   route.get("/path", async function (ctx) {
     logger.info("hit /path");
-    console.log("hit /path");
+    // console.log("hit /path");
     ctx.body = "Hello from path";
   })
 );
 
 app.use(
   route.post("/", async function (ctx) {
-    console.log("hit POST /");
+    // console.log("hit POST /");
     ctx.body = ctx.request.body || "Hello from POST";
   })
 );
 
 app.use(
   route.get("/weather", async function (ctx, next) {
-    console.log("hit /weather");
+    // console.log("hit /weather");
     logger.info("hit /weather");
     var axios = require("axios");
 
@@ -80,7 +62,7 @@ app.use(
       },
     };
 
-    console.log(`config: ${JSON.stringify(config)}`);
+    // console.log(`config: ${JSON.stringify(config)}`);
 
     return await axios(config)
       .then(function (response) {
