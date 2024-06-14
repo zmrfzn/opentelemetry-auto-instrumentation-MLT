@@ -46,7 +46,7 @@ otel/opentelemetry-collector-contrib \
 --config config.yaml
 ```
 
-1. Generate Load & Test
+5. Generate Load & Test
   
 Generate some load on the application on the available endpoints.
 
