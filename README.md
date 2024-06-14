@@ -32,7 +32,9 @@ node --require ./otel-wrapper server
 
 app runs on PORT 3000
 
-4. Start the Open Telemetry collector with configuration file in the root directory 
+4. Start the Open Telemetry collector with configuration file in the root directory.
+
+Add your New Relic INGEST license key by replacing the placeholder for the ENV VAR 
    
 ```bash
 docker run -d \
@@ -44,7 +46,7 @@ otel/opentelemetry-collector-contrib \
 --config config.yaml
 ```
 
-5. Generate Load & Test
+1. Generate Load & Test
   
 Generate some load on the application on the available endpoints.
 
