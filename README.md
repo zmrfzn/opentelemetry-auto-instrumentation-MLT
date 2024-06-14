@@ -1,57 +1,47 @@
+This is a Node.js application built with the Koa framework and instrumented with OpenTelemetry automatic instrumentation of Metrics, Logs & Traces, it also provides a Open Telemetry collector configuration `config.yaml` to export your telemetry to the collector.
 
-# Lambda with NodeJS on KOA framework
+## Prerequisites
+- Node 16.x 
+- Docker 
 
-## Usage
+## Getting Started
 
-### Deployment
-
-In order to deploy the example, you need to run the following command:
-
-```
-$ serverless deploy
-```
-
-After running deploy, you should see output similar to:
+1. Clone the repository:
 
 ```bash
-Deploying aws-node-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-project-dev (112s)
-
-functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
+git clone https://github.com:zmrfzn/opentelemetry-autoinstrumentation-MLT.git
+```
+2. Install dependencies 
+``` bash 
+npm install
 ```
 
-### Invocation
-
-After successful deployment, you can invoke the deployed function by using the following command:
-
+3. Start the application with the otel-wrapper module 
 ```bash
-serverless invoke --function hello
+node --require ./otel-wrapper server
 ```
 
-Which should result in response similar to the following:
+app runs on PORT 3000
 
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
+4. Start the Open Telemetry collector with configuration file in the root directory 
+   
 ```bash
-serverless invoke local --function hello
+docker run -d \
+-v "${PWD}/config.yaml":/config.yaml \
+-p 4318:4318 \
+-p 4317:4317 \
+otel/opentelemetry-collector-contrib \
+--config config.yaml
 ```
 
-Which should result in response similar to the following:
+5. Generate Load & Test
+  
+Generate some load on the application on the available endpoints.
 
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+### GET 
+- / 
+- /path
+- /weather?location=<your location>
+
+### POST 
+- / - accepts a JSON object in the body 
