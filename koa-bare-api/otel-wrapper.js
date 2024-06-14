@@ -29,6 +29,7 @@ const {
   W3CTraceContextPropagator,
 } = require("@opentelemetry/core");
 
+// App-wide configuration for application name 
 const myResource = Resource.default().merge(
   new Resource({
       [SEMRESATTRS_SERVICE_NAME]: process.env.OTEL_SERVICE_NAME,
@@ -47,7 +48,6 @@ const {
 } = require("@opentelemetry/sdk-logs");
 
 const {
-  OpenTelemetryBunyanStream,
   BunyanInstrumentation,
 } = require("@opentelemetry/instrumentation-bunyan");
 const {
@@ -62,6 +62,8 @@ const logExporter = new OTLPLogExporter({
   url: "http://localhost:4318/v1/logs",
 });
 
+
+// LogExporter for printing Console Logs
 appLoggerProvider.addLogRecordProcessor(
   new SimpleLogRecordProcessor(new ConsoleLogRecordExporter())
 );
@@ -69,13 +71,17 @@ appLoggerProvider.addLogRecordProcessor(
 appLoggerProvider.addLogRecordProcessor(
   new BatchLogRecordProcessor(logExporter)
 );
-otelLogs.setGlobalLoggerProvider(appLoggerProvider);
+
+/** 
+ * Set this LoggerProvider to be global to the app being instrumented. 
+ * Required when not using the registerInstrumentations() 
+ */
+// otelLogs.setGlobalLoggerProvider(appLoggerProvider);
 
 // logs end
 
 // OTEL Metrics Config start
 
-const opentelemetry = require("@opentelemetry/api");
 const {
   MeterProvider,
   PeriodicExportingMetricReader,
@@ -104,9 +110,13 @@ const myServiceMeterProvider = new MeterProvider({
   readers: [consoleMetricReader, MetricReaderExporter],
 });
 
-// Set this MeterProvider to be global to the app being instrumented.
+/** 
+ * Set this MeterProvider to be global to the app being instrumented. 
+ * Required when not using the registerInstrumentations() 
+ */
 // opentelemetry.metrics.setGlobalMeterProvider(myServiceMeterProvider);
-// Metrics end
+
+// Metrics Config end
 
 // For troubleshooting, set the log level to DiagLogLevel.DEBUG
 const {
@@ -115,22 +125,11 @@ const {
   DiagLogLevel
 } = require("@opentelemetry/api");
 // var logger = diag.createComponentLogger(DiagLogLevel.WARN);
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.WARN);
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO);
 
-// OTEL Traces config start
-const COLLECTOR_STRING = `${process.env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`;
+// OTEL Traces config 
 
-// logger.error(`string: ${COLLECTOR_STRING}`);
-
-/**
-* The `newRelicExporter` is an instance of OTLPTraceExporter
-* configured to send traces to New Relic's OTLP-compatible backend.
-* Make sure you have added your New Relic Ingest License to NR_LICENSE env-var
-*/
-const newRelicExporter = new OTLPTraceExporter({
-  url: COLLECTOR_STRING,
-});
-
+// Default URL for SDKs for Exporters
 const collectorExporter = new OTLPTraceExporter({
   url: "http://localhost:4318/v1/traces",
 });
@@ -162,6 +161,8 @@ traceProvider.register({
   }),
 });
 
+
+// register Instrumentations with SDK at appLevel
 registerInstrumentations({
   loggerProvider: appLoggerProvider,
   meterProvider: myServiceMeterProvider,
