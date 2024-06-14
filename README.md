@@ -11,13 +11,14 @@ This is a Node.js application built with the Koa framework and instrumented with
 ## Prerequisites
 - Node 16.x 
 - Docker 
+- New Relic Account - [Sign up](https://newrelic.com/signup) for a free account
 
 ## Getting Started
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com:zmrfzn/opentelemetry-autoinstrumentation-MLT.git
+git clone https://github.com:zmrfzn/opentelemetry-auto-instrumentation-MLT.git
 ```
 2. Install dependencies 
 ``` bash 
@@ -38,6 +39,7 @@ docker run -d \
 -v "${PWD}/config.yaml":/config.yaml \
 -p 4318:4318 \
 -p 4317:4317 \
+-e NR_LICENSE_KEY=<YOUR NEW RELIC INGEST LICENSE>
 otel/opentelemetry-collector-contrib \
 --config config.yaml
 ```
