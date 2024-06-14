@@ -1,7 +1,7 @@
 {
-  "name": "koa-sls",
+  "name": "koa-opentelemetry-MLT",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sample Node application with Open Telemetry auto instrumentation capturing Metrics, Logs & Traces",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

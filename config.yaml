@@ -25,8 +25,7 @@ exporters:
   otlphttp:
     endpoint: https://otlp.nr-data.net:4317
     headers:
-      api-key: f5644626eef13f26d27746c6e381555ef9f9NRAL
-
+      api-key: ${env:NR_LICENSE_KEY}
 
 service:
   pipelines:
