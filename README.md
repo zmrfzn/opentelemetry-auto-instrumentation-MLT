@@ -1,3 +1,11 @@
+<p float="left">
+<img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/NodeJS-Light.svg" width="50" height="50">
+<img src="https://raw.githubusercontent.com/cncf/artwork/c2e619cdf85e8bac090ceca7c0834c5cfedf9426/projects/opentelemetry/icon/color/opentelemetry-icon-color.svg" width="50" height="50" style="background-color:#F4F2ED;border-radius:25%;">
+</p>
+<hr>
+
+# Open Telemetry MLT (Metrics, Logs , Traces)  with Nodejs
+
 This is a Node.js application built with the Koa framework and instrumented with OpenTelemetry automatic instrumentation of Metrics, Logs & Traces, it also provides a Open Telemetry collector configuration `config.yaml` to export your telemetry to the collector.
 
 ## Prerequisites
@@ -38,10 +46,10 @@ otel/opentelemetry-collector-contrib \
   
 Generate some load on the application on the available endpoints.
 
-### GET 
+#### GET 
 - / 
 - /path
 - /weather?location=<your location>
 
-### POST 
+#### POST 
 - / - accepts a JSON object in the body 
